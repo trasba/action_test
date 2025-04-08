@@ -1,15 +1,15 @@
-# .woodpecker.yml
-# Defines the CI pipeline for Woodpecker
-
-pipeline: # Defines a pipeline block (you can have multiple named pipelines)
-  test: # Name of the step (can be anything descriptive)
-    image: bash:latest # Specifies the Docker image to run this step in
-    commands: # List of commands to execute inside the container
-      - echo "Starting Woodpecker pipeline step..."
-      - ./test_script.sh # Execute our test script
-      - echo "Woodpecker pipeline step finished."
-
-# Optional: Define when this pipeline runs
 when:
-  event: [push, pull_request] # Run on push events (to any branch) and pull requests
-  branch: [main, master] # Only run for pushes/PRs targeting the main/master branch (adjust as needed)
+  - event: push
+    branch: main
+
+steps:
+  - name: build
+    image: debian
+    commands:
+      - echo "This is the build step"
+      - echo "binary-data-123" > executable
+  - name: a-test-step
+    image: golang:1.16
+    commands:
+      - echo "Testing ..."
+      - ./executable
